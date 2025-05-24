@@ -35,7 +35,7 @@ QuizApp/
 
 ### 1. Clone the Repository
 
-\\ git clone https://github.com/Divyansh-132006/quiz-app-java.git
+\\ git clone https://github.com/Divyansh-132006/Quiz-Application by-Team-Byte-Us.git
 cd quiz-app-java
 
 

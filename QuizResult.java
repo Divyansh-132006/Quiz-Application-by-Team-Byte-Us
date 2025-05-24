@@ -1,9 +1,7 @@
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * Stores the result of a single quiz attempt
- */
+
 public class QuizResult implements Serializable {
     private static final long serialVersionUID = 1L;
     private String domain;

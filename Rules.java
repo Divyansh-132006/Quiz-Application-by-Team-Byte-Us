@@ -1,249 +1,3 @@
-// import javax.swing.*;
-// import java.awt.*;
-// import java.awt.event.*;
-// import java.util.List;
-
-// /**
-//  * Enhanced rules screen with additional customization options
-//  */
-// public class Rules extends JFrame {
-//     private UserProfile userProfile;
-//     private String domain;
-//     private String difficulty;
-//     private QuestionBank questionBank;
-//     private JSpinner questionCountSpinner;
-//     private JSpinner timePerQuestionSpinner;
-//     private JCheckBox reviewAnswersCheckbox;
-//     private JCheckBox showExplanationsCheckbox;
-//     private JCheckBox soundEffectsCheckbox;
-    
-//     public Rules(UserProfile userProfile, String domain, 
-//                 String difficulty, QuestionBank questionBank) {
-//         this.userProfile = userProfile;
-//         this.domain = domain;
-//         this.difficulty = difficulty;
-//         this.questionBank = questionBank;
-        
-//         // Set up the frame
-//         setTitle("Quiz Rules - " + domain + " (" + difficulty + ")");
-//         setSize(600, 500);
-//         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//         setLocationRelativeTo(null);
-        
-//         // Create main panel with gap borders
-//         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-//         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-//         // Header panel
-//         JPanel headerPanel = new JPanel(new BorderLayout());
-//         JLabel titleLabel = new JLabel("Quiz Rules & Options", JLabel.CENTER);
-//         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-//         JLabel subtitleLabel = new JLabel("Customize your quiz experience", JLabel.CENTER);
-//         subtitleLabel.setFont(new Font("Arial", Font.ITALIC, 14));
-        
-//         JPanel titlePanel = new JPanel(new GridLayout(2, 1));
-//         titlePanel.add(titleLabel);
-//         titlePanel.add(subtitleLabel);
-//         headerPanel.add(titlePanel, BorderLayout.CENTER);
-        
-//         // Welcome message
-//         JPanel welcomePanel = new JPanel(new BorderLayout());
-//         JLabel welcomeLabel = new JLabel("Welcome, " + userProfile.getUsername() + "!", JLabel.CENTER);
-//         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 16));
-//         welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
-        
-//         // Quiz information panel
-//         JPanel infoPanel = new JPanel(new GridLayout(0, 1, 5, 10));
-//         infoPanel.setBorder(BorderFactory.createTitledBorder("Quiz Information"));
-        
-//         infoPanel.add(new JLabel("Domain: " + domain));
-//         infoPanel.add(new JLabel("Difficulty: " + difficulty));
-        
-//         // Question count setting
-//         JPanel questionCountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//         questionCountPanel.add(new JLabel("Number of Questions: "));
-//         SpinnerNumberModel questionModel = new SpinnerNumberModel(10, 5, 30, 1);
-//         questionCountSpinner = new JSpinner(questionModel);
-//         questionCountPanel.add(questionCountSpinner);
-//         infoPanel.add(questionCountPanel);
-        
-//         // Time settings
-//         JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//         timePanel.add(new JLabel("Time per Question (seconds): "));
-//         SpinnerNumberModel timeModel = new SpinnerNumberModel(30, 10, 120, 5);
-//         timePerQuestionSpinner = new JSpinner(timeModel);
-//         timePanel.add(timePerQuestionSpinner);
-//         infoPanel.add(timePanel);
-        
-//         // Options panel
-//         JPanel optionsPanel = new JPanel(new GridLayout(0, 1, 5, 5));
-//         optionsPanel.setBorder(BorderFactory.createTitledBorder("Quiz Options"));
-        
-//         reviewAnswersCheckbox = new JCheckBox("Review answers after quiz", true);
-//         showExplanationsCheckbox = new JCheckBox("Show explanations for answers", true);
-//         soundEffectsCheckbox = new JCheckBox("Enable sound effects", true);
-        
-//         optionsPanel.add(reviewAnswersCheckbox);
-//         optionsPanel.add(showExplanationsCheckbox);
-//         optionsPanel.add(soundEffectsCheckbox);
-        
-//         // Rules panel
-//         JPanel rulesPanel = new JPanel(new BorderLayout());
-//         rulesPanel.setBorder(BorderFactory.createTitledBorder("Quiz Rules"));
-        
-//         JTextArea rulesText = new JTextArea();
-//         rulesText.setEditable(false);
-//         rulesText.setLineWrap(true);
-//         rulesText.setWrapStyleWord(true);
-//         rulesText.setBackground(new Color(250, 250, 220));
-//         rulesText.setText(
-//             "1. Answer each question within the time limit.\n\n" +
-//             "2. Each correct answer earns you points based on difficulty:\n" +
-//             "   - Easy: 10 points\n" +
-//             "   - Medium: 20 points\n" +
-//             "   - Hard: 30 points\n\n" +
-//             "3. Quick answers earn bonus points! Answering within half the time limit " +
-//             "gives you a 50% bonus.\n\n" +
-//             "4. No points are deducted for incorrect answers.\n\n" +
-//             "5. You can earn achievement badges by completing quizzes with high scores " +
-//             "or reaching milestones.\n\n" +
-//             "6. Have fun and learn something new!"
-//         );
-        
-//         JScrollPane rulesScroll = new JScrollPane(rulesText);
-//         rulesScroll.setPreferredSize(new Dimension(500, 150));
-//         rulesPanel.add(rulesScroll, BorderLayout.CENTER);
-        
-//         // Buttons panel
-//         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
-//         JButton startButton = new JButton("Start Quiz");
-//         JButton backButton = new JButton("Back to Login");
-//         buttonPanel.add(backButton);
-//         buttonPanel.add(startButton);
-        
-//         // Add action listeners
-//         startButton.addActionListener(e -> startQuiz());
-//         backButton.addActionListener(e -> goBackToLogin());
-        
-//         // Layout components on main panel
-//         JPanel topPanel = new JPanel(new BorderLayout());
-//         topPanel.add(headerPanel, BorderLayout.NORTH);
-//         topPanel.add(welcomePanel, BorderLayout.CENTER);
-        
-//         JPanel centerPanel = new JPanel(new BorderLayout(10, 10));
-//         centerPanel.add(infoPanel, BorderLayout.NORTH);
-//         centerPanel.add(optionsPanel, BorderLayout.CENTER);
-        
-//         mainPanel.add(topPanel, BorderLayout.NORTH);
-//         mainPanel.add(centerPanel, BorderLayout.WEST);
-//         mainPanel.add(rulesPanel, BorderLayout.CENTER);
-//         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        
-//         // Add to frame
-//         add(mainPanel);
-        
-//         // Apply theme from user profile
-//         applyTheme(userProfile.getPreferredTheme());
-//     }
-    
-//     private void startQuiz() {
-//         // Get quiz settings
-//         int questionCount = (Integer) questionCountSpinner.getValue();
-//         int timePerQuestion = (Integer) timePerQuestionSpinner.getValue();
-//         boolean reviewAnswers = reviewAnswersCheckbox.isSelected();
-//         boolean showExplanations = showExplanationsCheckbox.isSelected();
-//         boolean soundEffects = soundEffectsCheckbox.isSelected();
-        
-//         // Hide rules screen
-//         setVisible(false);
-        
-//         // Start the quiz with the specified settings
-//         SwingUtilities.invokeLater(() -> {
-//             Quiz quizScreen = new Quiz(
-//                 userProfile, domain, difficulty, questionBank,
-//                 questionCount, timePerQuestion, reviewAnswers, 
-//                 showExplanations, soundEffects
-//             );
-//             quizScreen.startQuiz();
-//         });
-//     }
-    
-//     private void goBackToLogin() {
-//         // Close this window
-//         dispose();
-        
-//         // Show login screen
-//         SwingUtilities.invokeLater(() -> {
-//             new Login().setVisible(true);
-//         });
-//     }
-    
-//     private void applyTheme(String theme) {
-//         Color bgColor, fgColor, btnBgColor, btnFgColor, panelBgColor;
-        
-//         switch (theme) {
-//             case "Dark":
-//                 bgColor = new Color(50, 50, 50);
-//                 fgColor = new Color(220, 220, 220);
-//                 btnBgColor = new Color(80, 80, 80);
-//                 btnFgColor = new Color(220, 220, 220);
-//                 panelBgColor = new Color(60, 60, 60);
-//                 break;
-//             case "Blue":
-//                 bgColor = new Color(220, 230, 255);
-//                 fgColor = new Color(20, 20, 70);
-//                 btnBgColor = new Color(100, 150, 220);
-//                 btnFgColor = Color.WHITE;
-//                 panelBgColor = new Color(200, 210, 240);
-//                 break;
-//             case "Green":
-//                 bgColor = new Color(230, 250, 230);
-//                 fgColor = new Color(20, 70, 20);
-//                 btnBgColor = new Color(100, 200, 100);
-//                 btnFgColor = Color.WHITE;
-//                 panelBgColor = new Color(210, 240, 210);
-//                 break;
-//             default: // Light
-//                 bgColor = new Color(240, 240, 240);
-//                 fgColor = Color.BLACK;
-//                 btnBgColor = new Color(230, 230, 230);
-//                 btnFgColor = Color.BLACK;
-//                 panelBgColor = new Color(250, 250, 250);
-//                 break;
-//         }
-        
-//         // Apply theme to all components recursively
-//         applyThemeToComponent(this.getContentPane(), bgColor, fgColor, btnBgColor, btnFgColor, panelBgColor);
-//     }
-    
-//     private void applyThemeToComponent(Container container, Color bgColor, Color fgColor, 
-//                                       Color btnBgColor, Color btnFgColor, Color panelBgColor) {
-//         container.setBackground(bgColor);
-//         container.setForeground(fgColor);
-        
-//         for (Component comp : container.getComponents()) {
-//             if (comp instanceof JPanel) {
-//                 comp.setBackground(panelBgColor);
-//                 comp.setForeground(fgColor);
-//                 applyThemeToComponent((Container) comp, bgColor, fgColor, btnBgColor, btnFgColor, panelBgColor);
-//             } else if (comp instanceof JButton) {
-//                 comp.setBackground(btnBgColor);
-//                 comp.setForeground(btnFgColor);
-//             } else if (comp instanceof JLabel) {
-//                 comp.setForeground(fgColor);
-//             } else if (comp instanceof JTextField || comp instanceof JComboBox || comp instanceof JSpinner) {
-//                 comp.setBackground(Color.WHITE);
-//                 comp.setForeground(Color.BLACK);
-//             } else if (comp instanceof JCheckBox) {
-//                 comp.setBackground(panelBgColor);
-//                 comp.setForeground(fgColor);
-//             } else if (comp instanceof Container) {
-//                 applyThemeToComponent((Container) comp, bgColor, fgColor, btnBgColor, btnFgColor, panelBgColor);
-//             }
-//         }
-//     }
-// }
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -251,9 +5,6 @@ import java.awt.event.*;
 import java.util.List;
 import java.net.URL;
 
-/**
- * Enhanced rules screen with attractive UI, images, and improved typography
- */
 public class Rules extends JFrame {
     private UserProfile userProfile;
     private String domain;
@@ -265,7 +16,7 @@ public class Rules extends JFrame {
     private JCheckBox showExplanationsCheckbox;
     private JCheckBox soundEffectsCheckbox;
     
-    // Custom fonts
+   
     private Font titleFont;
     private Font headingFont;
     private Font bodyFont;
@@ -278,39 +29,37 @@ public class Rules extends JFrame {
         this.difficulty = difficulty;
         this.questionBank = questionBank;
         
-        // Initialize custom fonts
+   
         initializeFonts();
         
-        // Set up the frame
+    
         setTitle("Quiz Rules - " + domain + " (" + difficulty + ")");
         setSize(800, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        // Create main panel with gradient background
+        
         JPanel mainPanel = new GradientPanel();
         mainPanel.setLayout(new BorderLayout(15, 15));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         
-        // Header panel with icon
+ 
         JPanel headerPanel = createHeaderPanel();
         
-        // Welcome message with user avatar
+       
         JPanel welcomePanel = createWelcomePanel();
         
-        // Quiz information panel with enhanced styling
+       
         JPanel infoPanel = createInfoPanel();
         
-        // Options panel with icons
+      
         JPanel optionsPanel = createOptionsPanel();
-        
-        // Rules panel with better formatting
+      
         JPanel rulesPanel = createRulesPanel();
         
-        // Buttons panel with styled buttons
+       
         JPanel buttonPanel = createButtonPanel();
-        
-        // Layout components on main panel
+      
         JPanel topPanel = new JPanel(new BorderLayout(10, 10));
         topPanel.setOpaque(false);
         topPanel.add(headerPanel, BorderLayout.NORTH);
@@ -326,22 +75,22 @@ public class Rules extends JFrame {
         mainPanel.add(rulesPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         
-        // Add to frame
+      
         add(mainPanel);
         
-        // Apply theme from user profile
+     
         applyTheme(userProfile.getPreferredTheme());
     }
     
     private void initializeFonts() {
         try {
-            // Try to use system fonts, fallback to default if not available
+            
             titleFont = new Font("Segoe UI", Font.BOLD, 28);
             headingFont = new Font("Segoe UI", Font.BOLD, 16);
             bodyFont = new Font("Segoe UI", Font.PLAIN, 14);
             buttonFont = new Font("Segoe UI", Font.BOLD, 14);
         } catch (Exception e) {
-            // Fallback fonts
+        
             titleFont = new Font("Arial", Font.BOLD, 28);
             headingFont = new Font("Arial", Font.BOLD, 16);
             bodyFont = new Font("Arial", Font.PLAIN, 14);
@@ -353,10 +102,10 @@ public class Rules extends JFrame {
         JPanel headerPanel = new JPanel(new BorderLayout(15, 10));
         headerPanel.setOpaque(false);
         
-        // Quiz icon
+       
         JLabel iconLabel = new JLabel();
         try {
-            // Create a quiz icon using Unicode or simple graphics
+          
             iconLabel.setText("🎯");
             iconLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
             iconLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -393,8 +142,7 @@ public class Rules extends JFrame {
             BorderFactory.createEmptyBorder(10, 15, 10, 15)
         ));
         welcomePanel.setBackground(new Color(255, 255, 255, 200));
-        
-        // User avatar
+       
         JLabel avatarLabel = new JLabel("👤");
         avatarLabel.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 20));
         
@@ -420,7 +168,7 @@ public class Rules extends JFrame {
         ));
         infoPanel.setBackground(new Color(255, 255, 255, 230));
         
-        // Domain info with icon
+ 
         JPanel domainPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         domainPanel.setOpaque(false);
         JLabel domainIcon = new JLabel("📚 ");
@@ -432,7 +180,6 @@ public class Rules extends JFrame {
         domainPanel.add(domainLabel);
         infoPanel.add(domainPanel);
         
-        // Difficulty info with icon
         JPanel difficultyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         difficultyPanel.setOpaque(false);
         String diffIcon = difficulty.equals("Easy") ? "🟢" : difficulty.equals("Medium") ? "🟡" : "🔴";
@@ -445,7 +192,7 @@ public class Rules extends JFrame {
         difficultyPanel.add(difficultyLabel);
         infoPanel.add(difficultyPanel);
         
-        // Question count setting
+       
         JPanel questionCountPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         questionCountPanel.setOpaque(false);
         JLabel questionIcon = new JLabel("❓ ");
@@ -462,7 +209,7 @@ public class Rules extends JFrame {
         questionCountPanel.add(questionCountSpinner);
         infoPanel.add(questionCountPanel);
         
-        // Time settings
+      
         JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         timePanel.setOpaque(false);
         JLabel timeIcon = new JLabel("⏱️ ");
@@ -567,11 +314,11 @@ public class Rules extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 15));
         buttonPanel.setOpaque(false);
         
-        // Styled buttons
+        
         JButton backButton = createStyledButton("⬅️ Back to Login", new Color(108, 117, 125), Color.WHITE);
         JButton startButton = createStyledButton("🚀 Start Quiz", new Color(40, 167, 69), Color.WHITE);
         
-        // Add action listeners
+     
         startButton.addActionListener(e -> startQuiz());
         backButton.addActionListener(e -> goBackToLogin());
         
@@ -591,7 +338,7 @@ public class Rules extends JFrame {
         button.setPreferredSize(new Dimension(160, 40));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
-        // Add hover effect
+     
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -607,7 +354,7 @@ public class Rules extends JFrame {
         return button;
     }
     
-    // Custom gradient panel for background
+   
     private class GradientPanel extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
@@ -624,17 +371,17 @@ public class Rules extends JFrame {
     }
     
     private void startQuiz() {
-        // Get quiz settings
+      
         int questionCount = (Integer) questionCountSpinner.getValue();
         int timePerQuestion = (Integer) timePerQuestionSpinner.getValue();
         boolean reviewAnswers = reviewAnswersCheckbox.isSelected();
         boolean showExplanations = showExplanationsCheckbox.isSelected();
         boolean soundEffects = soundEffectsCheckbox.isSelected();
         
-        // Hide rules screen
+
         setVisible(false);
         
-        // Start the quiz with the specified settings
+       
         SwingUtilities.invokeLater(() -> {
             Quiz quizScreen = new Quiz(
                 userProfile, domain, difficulty, questionBank,
@@ -646,10 +393,10 @@ public class Rules extends JFrame {
     }
     
     private void goBackToLogin() {
-        // Close this window
+       
         dispose();
         
-        // Show login screen
+        
         SwingUtilities.invokeLater(() -> {
             new Login().setVisible(true);
         });
@@ -689,14 +436,14 @@ public class Rules extends JFrame {
                 break;
         }
         
-        // Apply theme to all components recursively
+      
         applyThemeToComponent(this.getContentPane(), bgColor, fgColor, btnBgColor, btnFgColor, panelBgColor);
     }
     
     private void applyThemeToComponent(Container container, Color bgColor, Color fgColor, 
                                       Color btnBgColor, Color btnFgColor, Color panelBgColor) {
         if (container instanceof GradientPanel) {
-            return; // Don't override gradient panel
+            return; 
         }
         
         container.setBackground(bgColor);
@@ -705,7 +452,7 @@ public class Rules extends JFrame {
         for (Component comp : container.getComponents()) {
             if (comp instanceof JPanel && !(comp instanceof GradientPanel)) {
                 if (comp.getBackground().getAlpha() < 255) {
-                    // Keep transparent backgrounds
+                   
                     comp.setBackground(new Color(panelBgColor.getRed(), 
                                                panelBgColor.getGreen(), 
                                                panelBgColor.getBlue(), 

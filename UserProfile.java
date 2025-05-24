@@ -1,9 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * Handles user profile management and progress tracking
- */
+
 public class UserProfile implements Serializable {
     private static final long serialVersionUID = 1L;
     private String username;
@@ -30,25 +28,24 @@ public class UserProfile implements Serializable {
         }
         quizHistory.get(domain).add(result);
         totalQuizzesTaken++;
-        
-        // Check for achievements
+  
         checkForAchievements();
     }
     
     private void checkForAchievements() {
-        // First quiz completed
+      
         if (totalQuizzesTaken == 1 && !earnedBadges.contains("First Quiz")) {
             earnedBadges.add("First Quiz");
             achievementPoints += 10;
         }
         
-        // Fifth quiz completed
+   
         if (totalQuizzesTaken == 5 && !earnedBadges.contains("Quiz Enthusiast")) {
             earnedBadges.add("Quiz Enthusiast");
             achievementPoints += 25;
         }
         
-        // Perfect score achievement
+       
         for (Map.Entry<String, List<QuizResult>> entry : quizHistory.entrySet()) {
             List<QuizResult> results = entry.getValue();
             if (!results.isEmpty()) {
@@ -84,7 +81,7 @@ public class UserProfile implements Serializable {
         return quizHistory.getOrDefault(domain, new ArrayList<>());
     }
     
-    // Save the profile to file
+   
     public void saveProfile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(
                 new FileOutputStream("profiles/" + username + ".dat"))) {
@@ -94,7 +91,7 @@ public class UserProfile implements Serializable {
         }
     }
     
-    // Load a profile from file by username
+ 
     public static UserProfile loadProfile(String username) {
         File directory = new File("profiles");
         if (!directory.exists()) {
@@ -115,7 +112,7 @@ public class UserProfile implements Serializable {
         }
     }
     
-    // Get all saved usernames
+  
     public static List<String> getAllUsernames() {
         List<String> usernames = new ArrayList<>();
         File directory = new File("profiles");
@@ -135,7 +132,7 @@ public class UserProfile implements Serializable {
         return usernames;
     }
     
-    // Getters and setters
+
     public String getUsername() {
         return username;
     }

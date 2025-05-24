@@ -1,10 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/**
- * Manages all question operations including loading, categorizing,
- * and providing questions based on difficulty
- */
+
 public class QuestionBank {
     private Map<String, List<Question>> questionsByDomain;
     private static final String QUESTION_DIR = "questions";
@@ -15,19 +12,18 @@ public class QuestionBank {
     }
     
     private void loadDefaultQuestions() {
-        // Create questions directory if it doesn't exist
+ 
         File directory = new File(QUESTION_DIR);
         if (!directory.exists()) {
             directory.mkdir();
         }
         
-        // Check if default question files exist, if not create them
         createDefaultQuestionsIfNeeded("Java", createDefaultJavaQuestions());
         createDefaultQuestionsIfNeeded("Math", createDefaultMathQuestions());
         createDefaultQuestionsIfNeeded("Science", createDefaultScienceQuestions());
         createDefaultQuestionsIfNeeded("General Knowledge", createDefaultGeneralKnowledgeQuestions());
         
-        // Load all question files
+  
         File[] files = directory.listFiles((dir, name) -> name.endsWith(".dat"));
         if (files != null) {
             for (File file : files) {
@@ -71,14 +67,13 @@ public class QuestionBank {
         List<Question> allQuestions = questionsByDomain.getOrDefault(domain, new ArrayList<>());
         List<Question> filteredQuestions = new ArrayList<>();
         
-        // Filter by difficulty
         for (Question q : allQuestions) {
             if (q.getDifficulty().equals(difficulty)) {
                 filteredQuestions.add(q);
             }
         }
         
-        // If not enough questions of requested difficulty, add questions from other difficulties
+        
         if (filteredQuestions.size() < count) {
             for (Question q : allQuestions) {
                 if (!q.getDifficulty().equals(difficulty) && !filteredQuestions.contains(q)) {
@@ -87,7 +82,7 @@ public class QuestionBank {
             }
         }
         
-        // Shuffle and limit to requested count
+     
         Collections.shuffle(filteredQuestions);
         return filteredQuestions.size() <= count ? 
                filteredQuestions : 
@@ -99,25 +94,25 @@ public class QuestionBank {
         
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            // Skip header if exists
+
             if ((line = br.readLine()) != null && line.startsWith("Question,")) {
-                // This is a header, skip it
+               
             } else {
-                // Process the first line as it's not a header
+                
                 processQuestionLine(line, questions);
             }
             
-            // Process remaining lines
+       
             while ((line = br.readLine()) != null) {
                 processQuestionLine(line, questions);
             }
             
-            // Add new questions to the domain
+          
             List<Question> existingQuestions = questionsByDomain.getOrDefault(domain, new ArrayList<>());
             existingQuestions.addAll(questions);
             questionsByDomain.put(domain, existingQuestions);
             
-            // Save to file
+            
             saveQuestionsToFile(domain, existingQuestions);
             
         } catch (IOException e) {
@@ -126,24 +121,24 @@ public class QuestionBank {
     }
     
     private void processQuestionLine(String line, List<Question> questions) {
-        // Expected format: Question,CorrectAnswer,Option1,Option2,Option3,Difficulty,Type,Explanation
-        String[] parts = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); // Split by comma but ignore commas in quotes
+        
+        String[] parts = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
         
         if (parts.length >= 7) {
             String questionText = parts[0].trim().replace("\"", "");
             String correctAnswer = parts[1].trim().replace("\"", "");
             
             List<String> options = new ArrayList<>();
-            options.add(correctAnswer); // Add correct answer first
+            options.add(correctAnswer); 
             
-            // Add other options
+   
             for (int i = 2; i < 6 && i < parts.length; i++) {
                 if (!parts[i].trim().isEmpty()) {
                     options.add(parts[i].trim().replace("\"", ""));
                 }
             }
             
-            Collections.shuffle(options); // Shuffle options
+            Collections.shuffle(options); 
             
             String difficulty = parts.length > 6 ? parts[6].trim().replace("\"", "") : "Medium";
             String type = parts.length > 7 ? parts[7].trim().replace("\"", "") : "MULTIPLE_CHOICE";
@@ -162,11 +157,9 @@ public class QuestionBank {
         }
     }
     
-    // Create sample questions for each domain
     private List<Question> createDefaultJavaQuestions() {
         List<Question> javaQuestions = new ArrayList<>();
-        
-        // Easy Questions
+      
         javaQuestions.add(new Question(
             "What is the correct way to declare a variable in Java?",
             Arrays.asList("int x = 10;", "x = 10;", "variable x = 10;", "x: int = 10;"),
@@ -188,7 +181,7 @@ public class QuestionBank {
             "Java is platform-independent because it compiles to bytecode that can run on any system with a JVM."
         ));
         
-        // Medium Questions
+      
         javaQuestions.add(new Question(
             "What is the purpose of the 'static' keyword in Java?",
             Arrays.asList(
@@ -208,7 +201,7 @@ public class QuestionBank {
             "The List interface maintains elements in insertion order."
         ));
         
-        // Hard Questions
+       
         javaQuestions.add(new Question(
             "What is the output of: System.out.println(\"5\" + 2 + 3);",
             Arrays.asList("523", "10", "5 + 2 + 3", "Error"),
@@ -269,7 +262,7 @@ javaQuestions.add(new Question(
     private List<Question> createDefaultMathQuestions() {
         List<Question> mathQuestions = new ArrayList<>();
         
-        // Easy Questions
+        
         mathQuestions.add(new Question(
             "What is 12 × 9?",
             Arrays.asList("108", "98", "112", "121"),
@@ -290,8 +283,7 @@ javaQuestions.add(new Question(
             0, "Easy", QuestionType.TRUE_FALSE,
             "The sum of the angles in any triangle is always 180 degrees."
         ));
-        
-        // Medium Questions
+   
         mathQuestions.add(new Question(
             "Solve for x: 3x + 7 = 22",
             Arrays.asList("5", "6", "7", "4"),
@@ -306,7 +298,7 @@ javaQuestions.add(new Question(
             "sin(30°) = 0.5 or 1/2"
         ));
         
-        // Hard Questions
+      
         mathQuestions.add(new Question(
             "If f(x) = x² - 3x + 2, what is f'(x)?",
             Arrays.asList("2x - 3", "2x + 3", "x² - 3", "2x"),
@@ -327,7 +319,7 @@ javaQuestions.add(new Question(
     private List<Question> createDefaultScienceQuestions() {
         List<Question> scienceQuestions = new ArrayList<>();
         
-        // Easy Questions
+        
         scienceQuestions.add(new Question(
             "What is the chemical symbol for oxygen?",
             Arrays.asList("O", "Ox", "Om", "Og"),
@@ -341,8 +333,7 @@ javaQuestions.add(new Question(
             0, "Easy", QuestionType.MULTIPLE_CHOICE,
             "Mercury is the closest planet to the Sun."
         ));
-        
-        // Medium Questions
+
         scienceQuestions.add(new Question(
             "What is the main function of mitochondria in cells?",
             Arrays.asList(
@@ -362,7 +353,7 @@ javaQuestions.add(new Question(
             "In F = ma, 'a' represents acceleration."
         ));
         
-        // Hard Questions
+     
         scienceQuestions.add(new Question(
             "What is the Heisenberg Uncertainty Principle?",
             Arrays.asList(
@@ -387,8 +378,7 @@ javaQuestions.add(new Question(
     
     private List<Question> createDefaultGeneralKnowledgeQuestions() {
         List<Question> generalQuestions = new ArrayList<>();
-        
-        // Easy Questions
+    
         generalQuestions.add(new Question(
             "Which country is known as the Land of the Rising Sun?",
             Arrays.asList("Japan", "China", "Thailand", "Vietnam"),
@@ -403,7 +393,7 @@ javaQuestions.add(new Question(
             "The Mona Lisa was painted by Leonardo da Vinci in the early 16th century."
         ));
         
-        // Medium Questions
+
         generalQuestions.add(new Question(
             "What is the capital of Australia?",
             Arrays.asList("Canberra", "Sydney", "Melbourne", "Perth"),
@@ -418,7 +408,7 @@ javaQuestions.add(new Question(
             "World War II ended in 1945."
         ));
         
-        // Hard Questions
+  
         generalQuestions.add(new Question(
             "Who wrote the book 'One Hundred Years of Solitude'?",
             Arrays.asList(

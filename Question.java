@@ -1,16 +1,14 @@
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Represents a single quiz question with various types and difficulty levels
- */
+
 public class Question implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private String text;
     private List<String> options;
     private int correctOptionIndex;
-    private String difficulty;  // "Easy", "Medium", "Hard"
+    private String difficulty;  
     private QuestionType type;
     private String explanation;
     
@@ -57,9 +55,7 @@ public class Question implements Serializable {
     }
 }
 
-/**
- * Enum for different question types
- */
+
 enum QuestionType {
     MULTIPLE_CHOICE,
     TRUE_FALSE,

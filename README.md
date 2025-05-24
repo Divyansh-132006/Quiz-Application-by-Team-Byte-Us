@@ -34,7 +34,7 @@ QuizApp/
 ## 🔧 Setup Instructions
 
 ### 1. Clone the Repository
-(https://github.com/Divyansh-132006/Quiz-Application-by-Team-Byte-Us)
+https://github.com/Divyansh-132006/Quiz-Application-by-Team-Byte-Us
 cd quiz-app-java
 
 
